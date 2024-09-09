@@ -4,20 +4,20 @@ react-week-chart is a React component for visualizing data as range in weekly vi
 
 🚀 Features
 
-Dynamic Range Selection: Allows users to select and view multiple date ranges.
-Customizable: Easily customize the appearance of the calendar and date ranges.
-Flexible Date Handling: Supports various date formats and locales.
+Dynamic chart: llow users to use same values in same day
+Customizable: Easily customize the appearance of the chart and date ranges.
+
 ⚠️ Under Testing
 
 This library is currently under testing and development. While we are working hard to make it stable and reliable, please be aware that some features may be experimental or subject to change. We appreciate your feedback and contributions to help improve this library.
 
 📦 Installation
 
-To install react-multi-range-viewer, use npm or yarn:
+To install react-week-chart, use npm or yarn:
 
 bash
 Copy code
-npm install react-multi-date-range-viewer
+npm install react-week-chart
 or
 
 bash
@@ -30,7 +30,7 @@ Example of use
 
 ```jsx
 import moment from "moment";
-import WeekDetails from "./ReactWeekChart";
+import WeekDetails from "react-week-chart";
 
 const data = [
   {
