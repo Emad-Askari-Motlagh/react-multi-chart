@@ -71,7 +71,7 @@ const App = () => {
         beginNumber={0}
         endNumber={17}
         weeklyData={data as DayData[]}
-        GuidComponent={GuidComponent}
+        GuidComponent={<GuidComponent/>}
       />
     </div>
   );
