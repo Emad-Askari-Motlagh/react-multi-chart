@@ -17,7 +17,6 @@ declare module 'react-week-chart' {
         beginNumber: number;
         endNumber: number;
         initialWeek: Date;
-        themeObj: any;
         yAxisExtension?: string
     }
 

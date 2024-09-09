@@ -1,19 +1,14 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
+import './WeekChart.css'
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-interface DayData {
+export interface DayData {
   day: Date; // This stores the day’s date
   beginNumber: number; // Hour in the day (e.g., 9 for 9:00 AM)
   endNumber: number; // Hour in the day (e.g., 17 for 5:00 PM)
   color: string; // Color to represent the event
 }
 
-export enum TimesVariationsEnum {
-  Jobb = "Jobb",
-  Semester = "Semester",
-  Sjuk = "Sjuk",
-  Vabb = "Vabb",
-}
 
 interface WeeklyDataComponentProps {
   weeklyData: DayData[];
@@ -21,14 +16,14 @@ interface WeeklyDataComponentProps {
   beginNumber: number;
   endNumber: number;
   initialWeek: Date;
-  themeObj: any;
+   containerStyle?: CSSProperties
   yAxisExtension?: string;
 }
 
 const ReactWeekChart: React.FC<WeeklyDataComponentProps> = ({
   weeklyData,
   initialWeek,
-  themeObj,
+containerStyle,
   GuidComponent,
   beginNumber,
   endNumber,
@@ -92,12 +87,12 @@ const ReactWeekChart: React.FC<WeeklyDataComponentProps> = ({
     return (
       <div
         className="week-days-container"
-        style={{ color: themeObj?.theme === "light" ? "#282828" : "white" }}
+        style={{...containerStyle}}
       >
         {daysOfWeek.map((day, dayIndex) => {
           // Filter `weeklyData` for events that occur on the current day
           const dayEvents = weeklyData.filter(({ day: eventDay }) =>
-            eventDay.toDateString() === day.toDateString()
+          eventDay instanceof Date&&day instanceof Date?  eventDay.toDateString() === day.toDateString():false
           );
 
           const cells = [];

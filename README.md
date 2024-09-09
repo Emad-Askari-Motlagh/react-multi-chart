@@ -63,10 +63,15 @@ const App = () => {
         margin: "auto",
         marginTop: "10%",
       }}>
+
       <WeekDetails
-        extension=":00"
-        GuidComponent={<GuidComponent />}
-        data={data}
+        yAxisExtension=":00"
+        initialWeek={new Date()}
+        containerStyle={{ backgroundColor: "transparent", color: "white" }}
+        beginNumber={0}
+        endNumber={17}
+        weeklyData={data as DayData[]}
+        GuidComponent={GuidComponent}
       />
     </div>
   );

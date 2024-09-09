@@ -1,15 +1,10 @@
-import React from "react";
-interface DayData {
+import React, { CSSProperties } from "react";
+import './WeekChart.css';
+export interface DayData {
     day: Date;
     beginNumber: number;
     endNumber: number;
     color: string;
-}
-export declare enum TimesVariationsEnum {
-    Jobb = "Jobb",
-    Semester = "Semester",
-    Sjuk = "Sjuk",
-    Vabb = "Vabb"
 }
 interface WeeklyDataComponentProps {
     weeklyData: DayData[];
@@ -17,7 +12,7 @@ interface WeeklyDataComponentProps {
     beginNumber: number;
     endNumber: number;
     initialWeek: Date;
-    themeObj: any;
+    containerStyle?: CSSProperties;
     yAxisExtension?: string;
 }
 declare const ReactWeekChart: React.FC<WeeklyDataComponentProps>;
