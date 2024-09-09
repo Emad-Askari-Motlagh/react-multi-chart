@@ -1,6 +1,6 @@
-React Multi Date Range Viewer
+React Week Chart
 #The module is still in test process
-react-multi-range-viewer is a React component for visualizing and selecting ranges on a calendar. It's designed to be flexible and easy to integrate into your React applications.
+react-week-chart is a React component for visualizing data as range in weekly view. It's designed to be flexible and easy to integrate into your React applications.
 
 🚀 Features
 
@@ -22,40 +22,39 @@ or
 
 bash
 Copy code
-yarn add react-multi-range-viewer
+yarn add react-week-chart
 
 ![Simple example](./assets/readme-pic.jpg)
 
 Example of use
 
 ```jsx
-import React from "react";
-import RangeViewer from "react-multi-date-range";
 import moment from "moment";
+import WeekDetails from "./ReactWeekChart";
 
+const data = [
+  {
+    beginNumber: 0,
+    endNumber: 7,
+    key: "1",
+    type: "leave",
+    color: "red",
+    textColor: "white",
+    cellTextColor: "blue",
+    day: moment().add(1, "day").toString(),
+  },
+  {
+    beginNumber: 3,
+    endNumber: 7,
+
+    key: "2",
+    type: "WorkTime",
+    color: "orange",
+    textColor: "white",
+    day: moment().toString(),
+  },
+];
 const App = () => {
-  const data = [
-    {
-      startDate: moment().toDate(),
-      endDate: moment().add(2, "days").toDate(),
-
-      key: "1",
-      type: "leave",
-      color: "red",
-      textColor: "white",
-      cellTextColor: "blue",
-    },
-    {
-      startDate: moment().add(10, "days").toDate(),
-      endDate: moment().add(12, "days").toDate(),
-
-      key: "2",
-      type: "WorkTime",
-      color: "orange",
-      textColor: "white",
-    },
-  ];
-
   return (
     <div
       style={{
@@ -64,39 +63,30 @@ const App = () => {
         margin: "auto",
         marginTop: "10%",
       }}>
-      <RangeViewer
-        loading={false}
-        backgroundColor="#383838"
-        activeDate={moment().toDate()}
-        textColor="#fff"
-        borderColor="lightGray"
-        handleRangeClick={(range: any) => console.log("Range clicked:", range)}
-        onShownDateChange={(date: any) => console.log("Date changed:", date)}
+      <WeekDetails
+        extension=":00"
+        GuidComponent={<GuidComponent />}
         data={data}
-        guidHeaderColor="red"
-        beginDayOfWeek={"monday"} //'sunday' or 'monday'
-        GuildComponent={<GuildComponent theme="dark" />}
       />
     </div>
   );
 };
 
 export default App;
-const GuildComponent = ({ theme }: { theme: string | undefined }) => (
-  <div
-    className="guid-colors-parent"
-    style={{
-      color: theme === "dark" ? "whiteSmoke" : "#585858",
-      fontWeight: "bold",
-    }}>
-    <span>
-      <span className="guid-colors1"></span>
-      <span>Sick</span>
-    </span>
-    <span>
-      <span className="guid-colors2"></span>
-      <span>Work</span>
-    </span>
-  </div>
-);
+const GuidComponent = () => {
+  return (
+    <div
+      className="guid-colors-parent"
+      style={{ color: "white" }}>
+      {data.map((r: any) => (
+        <span>
+          <span
+            className="guid-colors-shape"
+            style={{ backgroundColor: r.color }}></span>
+          <span>{r.type}</span>
+        </span>
+      ))}
+    </div>
+  );
+};
 ```
