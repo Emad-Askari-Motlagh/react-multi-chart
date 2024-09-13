@@ -1,4 +1,4 @@
-React Week Chart
+react-week-chart
 #The module is still in test process
 react-week-chart is a React component for visualizing data as range in weekly view. It's designed to be flexible and easy to integrate into your React applications.
 
@@ -7,9 +7,7 @@ react-week-chart is a React component for visualizing data as range in weekly vi
 Dynamic chart: llow users to use same values in same day
 Customizable: Easily customize the appearance of the chart and date ranges.
 
-⚠️ Under Testing
-
-This library is currently under testing and development. While we are working hard to make it stable and reliable, please be aware that some features may be experimental or subject to change. We appreciate your feedback and contributions to help improve this library.
+This library is in first stages. While we are working hard to make it stable and reliable, please be aware that some features may be experimental or subject to change. We appreciate your feedback and contributions to help improve this library.
 
 📦 Installation
 

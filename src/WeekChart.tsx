@@ -54,133 +54,146 @@ containerStyle,
     return new Date(start.getTime() + 6 * 24 * 60 * 60 * 1000); // Add 6 days to get Sunday
   };
 
-  const formatDate = (date: Date, options: Intl.DateTimeFormatOptions) =>
-    date.toLocaleDateString('en-GB', options);
-
-  const renderWeekDays = () => {
-    const daysOfWeek = Array.from({ length: 7 }).map((_, index) => {
+ const renderWeekDays = () => {
+const daysOfWeek = Array.from({ length: 7 }).map((_, index) => {
       const newDay = new Date(currentWeek);
       newDay.setDate(startOfWeek(currentWeek).getDate() + index); // Get each day of the current week
       return newDay;
     });
 
-    const chartCellsStyle = (
-      cellColor: string,
-      isOnEdge: boolean,
-      isFirstHour: boolean
-    ) => ({
-      backgroundColor: cellColor,
-      borderTopLeftRadius: isOnEdge ? "10px" : "0",
-      borderTopRightRadius: isOnEdge ? "10px" : "0",
-      borderBottomLeftRadius: isFirstHour ? "10px" : "0",
-      borderBottomRightRadius: isFirstHour ? "10px" : "0",
-      margin: "auto",
-      width: "100%",
-      boxShadow:
-        "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+  const chartCellsStyle = (
+    cellColor: string,
+    isOnEdge: boolean,
+    isFirstHour: boolean
+  ) => ({
+    backgroundColor: cellColor,
+    borderTopLeftRadius: isOnEdge ? "10px" : "0",
+    borderTopRightRadius: isOnEdge ? "10px" : "0",
+    borderBottomLeftRadius: isFirstHour ? "10px" : "0",
+    borderBottomRightRadius: isFirstHour ? "10px" : "0",
+    margin: "auto",
+    width: "100%",
+    boxShadow:
+      "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px",
+  });
+
+  const isOnRange = (hour: number, beginHour: number, endHour: number) => {
+    return hour >= beginHour && hour < endHour;
+  };
+
+  return (
+    <div
+      className="week-days-container"
+
+    >
+      {daysOfWeek.map((day, dayIndex) => {
+         const daysOfWeek = Array.from({ length: 7 }).map((_, index) => {
+      const newDay = new Date(currentWeek);
+      newDay.setDate(startOfWeek(currentWeek).getDate() + index); // Get each day of the current week
+      return newDay;
     });
 
-    const isOnRange = (hour: number, beginHour: number, endHour: number) => {
-      return hour > beginHour && hour <= endHour + 1;
-    };
 
-    return (
-      <div
-        className="week-days-container"
-        style={{...containerStyle}}
-      >
-        {daysOfWeek.map((day, dayIndex) => {
-          // Filter `weeklyData` for events that occur on the current day
-          const dayEvents = weeklyData.filter(({ day: eventDay }) =>
-          eventDay instanceof Date&&day instanceof Date?  eventDay.toDateString() === day.toDateString():false
+        const dayEvents = weeklyData.filter(({ day: eventDay }) =>
+           eventDay instanceof Date&&day instanceof Date?  eventDay.toDateString() === day.toDateString():false
+        );
+
+        const cells = [];
+
+        for (let i = beginNumber; i <= endNumber; i++) {
+          const eventsAtHour = dayEvents.filter(({ beginNumber, endNumber }) =>
+            isOnRange(i, beginNumber, endNumber)
           );
 
-          const cells = [];
+          const isOnEdge = (event: DayData) =>
+            i === event.beginNumber || i === event.endNumber;
 
-          for (let i = beginNumber; i <= endNumber; i++) {
-            let workCellColor = "transparent";
-            let isOnEdge = false;
-            let isFirstHour = false;
+          const isFirstHour = (event: DayData) => i === event.beginNumber;
+ const formatDate = (date: Date, options: Intl.DateTimeFormatOptions) =>
+    date.toLocaleDateString('en-GB', options);
+          const totalEvents = eventsAtHour.length;
+          const cellWidth = totalEvents > 0 ? `${100 / totalEvents}%` : "100%";
 
-            dayEvents.forEach(({ beginNumber, endNumber, color }) => {
-              if (isOnRange(i, beginNumber, endNumber)) {
-                workCellColor = color;
-                isOnEdge = i === beginNumber || i === endNumber + 1;
-                isFirstHour = i === beginNumber + 1;
-              }
-            });
-
-            cells.push(
+          const eventCells = eventsAtHour.map((event, eventIndex) => (
+            <div
+              key={`${dayIndex}-${i}-${eventIndex}`}
+              className="cells scale-up-animation"
+              style={{
+                ...chartCellsStyle(
+                  event.color,
+                  isOnEdge(event),
+                  isFirstHour(event)
+                ),
+                overflow: "visible",
+                position: "relative",
+                width: cellWidth,
+                maxWidth: "30px",
+              }}
+            >
               <div
-                key={`${dayIndex}-${i}`}
                 style={{
+                  position: "absolute",
+                  bottom: "0",
+                  left: "0",
                   width: "100%",
+                  borderTopRightRadius: "10px",
+                  borderTopLeftRadius: "10px",
+                  overflow: "hidden",
+                }}
+              >
+                <WorkTimesMinutesComponent extraMinutes={0} />
+              </div>
+            </div>
+          ));
+
+          cells.push(
+            <div
+              key={`${dayIndex}-${i}`}
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                margin: "auto",
+              }}
+            >
+              {eventCells}
+            </div>
+          );
+        }
+
+        return (
+          <div key={dayIndex} className="week-day">
+            <div style={{ fontWeight: "900", fontSize: "18px" }}>
+             
+            </div>
+            <div>
+              <span
+                style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  flexDirection: "column-reverse",
+                  justifyContent: "center",
                   alignItems: "center",
+                  border: "1px solid gray",
                   margin: "auto",
                 }}
               >
-                <div
-                  className="cells scale-up-animation"
-                  style={{
-                    ...chartCellsStyle(workCellColor, isOnEdge, isFirstHour),
-                    overflow: "visible",
-                    position: "relative",
-                    width: `${100 / dayEvents.length}%`,
-                    maxWidth: "30px",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      bottom: "0",
-                      left: "0",
-                      width: "100%",
-                      borderTopRightRadius: "10px",
-                      borderTopLeftRadius: "10px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <WorkTimesMinutesComponent extraMinutes={0} />
-                  </div>
-                </div>
-              </div>
-            );
-          }
-
-          return (
-            <div key={dayIndex} className="week-day">
-              <div style={{ fontWeight: "900", fontSize: "18px" }}>
-                {formatDate(day, { weekday: "short" })}
-              </div>
-              <div>
-                <span
-                  style={{
-                    display: "flex",
-                    flexDirection: "column-reverse",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    border: "1px solid gray",
-                    margin: "auto",
-                  }}
-                >
-                  {cells}
-                </span>
-              </div>
+                {cells}
+              </span>
             </div>
-          );
-        })}
-      </div>
-    );
-  };
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 
   return (
     <div style={{ width: "100%" }}>
       <div className="week-range">
         <span>
-          {formatDate(startOfWeek(currentWeek), { day: "2-digit", month: "short" })} -{" "}
-          {formatDate(endOfWeek(currentWeek), { day: "2-digit", month: "short" })}
+    
         </span>
       </div>
       <div className="arrows-container">
