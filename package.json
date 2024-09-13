@@ -1,7 +1,7 @@
 {
   "name": "react-week-chart",
-  "version": "1.0.4",
-  "description": "Simple React component for viewing multiple date ranges.",
+  "version": "1.0.5",
+  "description": "Simple React component for showing data as bar chart in every week",
   "main": "lib/WeekChart.js",
   "types": "lib/WeekChart.d.ts",
   "files": [
