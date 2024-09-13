@@ -1,6 +1,6 @@
 {
   "name": "react-week-chart",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Simple React component for viewing multiple date ranges.",
   "main": "lib/WeekChart.js",
   "types": "lib/WeekChart.d.ts",
@@ -49,8 +49,11 @@
   },
   "keywords": [
     "react",
-    "date-range",
-    "calendar"
+    "chart",
+    "multi",
+    "bar",
+    "week",
+    "time"
   ],
   "author": "Emad Askari",
   "license": "Alliancecodes AB",
